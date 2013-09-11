@@ -42,11 +42,11 @@ Following keybord shortcut is supported
 -------------------
 Formatted result is verified by lexical token level,and compared to *before format* token sequence. 
 If token sequence is not matched. ISE editor text is not changed (reverted to before format text).
+Currently tested over 1000 PowerShell repository(about 70MB .ps1/.psm1) in GitHub and test passed.
 
-*Note: formatted result is verified, thought it may break existing code after formatting. please backup important files before execute code format*
+*Note: Thought formatted result is verified, it may break existing code after formatting. please backup important files before execute code format*
+When code formatting error occured, error line information displayed in ISE console pane. Please report error message.
 
-I've tested over 1000 PowerShell project code in GutHub repository.  
-When code format error occued please report error message that displayed in ISE console pane.
 
 5.TODO List
 ---------------
