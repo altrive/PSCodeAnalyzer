@@ -50,7 +50,8 @@ When code format error occued please report error message that displayed in ISE 
 
 5.TODO List
 ---------------
-- [x] Basic code formatter IDE integration
-- [ ] Support code formatter options
+- [x] Basic code formating integration for PowerShell ISE
+- [ ] Support various code formatter options
 - [ ] Support partial range formatting
+- [ ] GUI option settings page
 - [ ] VS code formatter integration
