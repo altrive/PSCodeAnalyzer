@@ -11,8 +11,9 @@ Supported environment is following
 
 1.How to install
 ---------------
-1. Download zip file from <> and extract it. 
-2. Run 'install.bat' file to install modules to PowerShell user module directory(under MyDocument)
+1. Download zip file from <https://github.com/altrive/PSCodeAnalyzer/releases> 
+2. Unblock zip file and extract it. 
+3. Run 'install.bat' file to install modules to PowerShell user module directory(under MyDocument)
 
 2.How to use
 --------------------
