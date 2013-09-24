@@ -11,28 +11,20 @@ Supported environment is following
 
 1.How to install
 ---------------
-1. Download zip file from <https://github.com/altrive/PSCodeAnalyzer/releases> 
-2. Unblock zip file and extract it. 
-3. Run 'install.bat' file to install modules to PowerShell user module directory(under MyDocument)
+1. Open PowerShell ISE
+2. Execute following command, it automatically download installer zip file and extract to PSModule directory.
+```powershell
+(New-Object Net.WebClient).DownloadString("https://github.com/altrive/PSCodeAnalyzer/releases/download/v0.2-alpha/Install.ps1") | Invoke-Expression -Verbose
+```
+3. Confirm prompt appeared. If you want to import module automatically when ISE started. select yes.
 
 2.How to use
 --------------------
-Open PowerShell ISE and execute following command. 
+Open PowerShell ISE and execute following command to load module.
 ``` powershell
 Import-Module PSCodeAnalyzer.ISEAddin
 ```
 
-If you want to import module automatically when PowerShell ISE launched.
-Execute following command (if you already created profile file, need to append line manually)
-
-``` powershell
-if(!Test-Path $profile.CurrentUserCurrentHost){
-	"Import-Module PSCodeAnalyzer.ISEAddin" > $profile.CurrentUserCurrentHost
-}
-```
-
-3.Keybord shortcut
---------------------
 Following keybord shortcut is supported
 - Format Document : Ctrl+K, Ctrl+D
 - Format Selection: Ctrl+L, Ctrl+F (Currently not implemented. instead entire document is formatted)
