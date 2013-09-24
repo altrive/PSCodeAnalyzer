@@ -27,7 +27,7 @@ Import-Module PSCodeAnalyzer.ISEAddin
 
 Following keybord shortcut is supported
 - Format Document : Ctrl+K, Ctrl+D
-- Format Selection: Ctrl+L, Ctrl+F (Currently not implemented. instead entire document is formatted)
+- Format Selection: Ctrl+K, Ctrl+F (Currently not implemented. instead entire document is formatted)
 
 
 4.Code formating result verification
