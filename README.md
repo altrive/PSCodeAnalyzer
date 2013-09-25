@@ -15,7 +15,7 @@ Supported environment is following
 2. Execute following command, it automatically download installer zip file and extract to PSModule directory.If you want to import module automatically when ISE started. select yes in prompt.
 
 ``` powershell
-(New-Object Net.WebClient).DownloadString("https://github.com/altrive/PSCodeAnalyzer/releases/download/v0.3-beta/Install.ps1") | Invoke-Expression -Verbose
+(New-Object Net.WebClient).DownloadString("https://github.com/altrive/PSCodeAnalyzer/releases/download/v0.4-beta/Install.ps1") | Invoke-Expression -Verbose
 ```
 
 2.How to use
