@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20617.1 PREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4A713A93-AD25-4B5D-9086-46CB4A72428B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSCodeAnalyzer.ISEAddin", "PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.csproj", "{C44F97C5-B17D-4B2A-B9EE-E512C37CC475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSCodeAnalyzer", "PSCodeAnalyzer\PSCodeAnalyzer.csproj", "{43DFF197-1001-492C-99EA-CF8F4C49E05D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSCodeAnalyzer.Tests", "PSCodeAnalyzer.Tests\PSCodeAnalyzer.Tests.csproj", "{271747FD-4841-4553-82B5-E59B042686A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{E4DE1858-9117-441D-BE05-018967C1EC5F}"
+	ProjectSection(SolutionItems) = preProject
+		Installer\CreatePackage.bat = Installer\CreatePackage.bat
+		Installer\CreatePackage.ps1 = Installer\CreatePackage.ps1
+		Installer\Install.ps1 = Installer\Install.ps1
+		Installer\InstallLocal.ps1 = Installer\InstallLocal.ps1
+		Installer\PSCodeAnalyzer.zip = Installer\PSCodeAnalyzer.zip
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{61429A14-C089-4B6D-9FFA-3BAE0D295949}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PSCodeAnalyzer.ISEAddin", "PSCodeAnalyzer.ISEAddin", "{533E299A-AF54-4422-97C5-AEDE75EE0D4D}"
+	ProjectSection(SolutionItems) = preProject
+		Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.dll = Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.dll
+		Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.dll = Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.dll
+		Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.psd1 = Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.psd1
+		Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.psm1 = Installer\Modules\PSCodeAnalyzer.ISEAddin\PSCodeAnalyzer.ISEAddin.psm1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34C0E8BD-E292-4B87-A7DD-90B879E31A11}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Archives", "Archives", "{8B51453E-FA6A-4E54-93C4-57C5C3000470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C44F97C5-B17D-4B2A-B9EE-E512C37CC475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C44F97C5-B17D-4B2A-B9EE-E512C37CC475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C44F97C5-B17D-4B2A-B9EE-E512C37CC475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C44F97C5-B17D-4B2A-B9EE-E512C37CC475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DFF197-1001-492C-99EA-CF8F4C49E05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DFF197-1001-492C-99EA-CF8F4C49E05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DFF197-1001-492C-99EA-CF8F4C49E05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DFF197-1001-492C-99EA-CF8F4C49E05D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271747FD-4841-4553-82B5-E59B042686A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271747FD-4841-4553-82B5-E59B042686A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271747FD-4841-4553-82B5-E59B042686A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271747FD-4841-4553-82B5-E59B042686A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{61429A14-C089-4B6D-9FFA-3BAE0D295949} = {E4DE1858-9117-441D-BE05-018967C1EC5F}
+		{8B51453E-FA6A-4E54-93C4-57C5C3000470} = {E4DE1858-9117-441D-BE05-018967C1EC5F}
+		{533E299A-AF54-4422-97C5-AEDE75EE0D4D} = {61429A14-C089-4B6D-9FFA-3BAE0D295949}
+	EndGlobalSection
+EndGlobal
