@@ -19,19 +19,16 @@ namespace PSCodeAnalyzer.Tests
     {
         private static EditorImports _value;
         [Import]
-        private ITextBufferFactoryService _textBufferFactoryService;
+        private ITextBufferFactoryService _textBufferFactoryService=null;
 
         [Import]
-        private ITextEditorFactoryService _textEditorFactoryService;
+        private ITextEditorFactoryService _textEditorFactoryService = null;
 
         [Import]
-        private IContentTypeRegistryService _contentTypeRegistryService;
+        private IContentTypeRegistryService _contentTypeRegistryService = null;
 
         [Import]
-        private ITextBufferUndoManagerProvider _textBufferUndoManagerProvider;
-
-        [Import]
-        private ICodeAnalyzerFactory _codeAnalyzerFactory;
+        private ICodeAnalyzerFactory _codeAnalyzerFactory = null;
 
 
         internal static ITextEditorFactoryService TextEditorFactoryService
@@ -89,10 +86,8 @@ namespace PSCodeAnalyzer.Tests
                 {
                     container.ComposeParts(this);
                     PSCodeAnalyzer.EditorImports.Current = container.GetExportedValue<PSCodeAnalyzer.EditorImports>();
-                    //Need to create private field instance before access
-                    //var dummy = _editorOptionsFactoryService.GlobalOptions;
                 }
-                catch (CompositionException compositionException)
+                catch (CompositionException)
                 {
                     throw;
                 }

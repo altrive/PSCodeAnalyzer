@@ -94,7 +94,7 @@ namespace PSCodeAnalyzer
                 codeAnalyzerFactory = container.GetExportedValue<ICodeAnalyzerFactory>();
                 EditorImports.Current = container.GetExportedValue<EditorImports>();
             }
-            catch (CompositionException compositionException)
+            catch (CompositionException)
             {
                 throw;
             }

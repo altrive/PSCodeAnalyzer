@@ -217,10 +217,6 @@ namespace PSCodeAnalyzer
                 //Contract.Assert(IndentMode != TokenIndentMode.SuppressIndent);
             }
 
-            this.IndentMode = TokenIndentMode.Indent;
-            return true;
-
-
             this.IndentMode = force
                     ? TokenIndentMode.ForceIndent
                     : TokenIndentMode.Indent;
