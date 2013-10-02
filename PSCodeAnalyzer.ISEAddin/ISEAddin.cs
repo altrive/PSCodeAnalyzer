@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.PowerShell.Host.ISE;
 using Microsoft.VisualStudio.Text;
@@ -88,9 +89,11 @@ namespace PSCodeAnalyzer
 
             try
             {
-                Thread.Sleep(100);//HACK: To avoid ISE crashed by ArgumentOutOfRangeException.
-                analyzer.FormatText();
-                Thread.Sleep(100);//HACK: To avoid ISE crashed by ArgumentOutOfRangeException.
+                //Need to execute whole operation in UI thread? to avoid ISE crashed by ArgumentOutOfRangeException
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    analyzer.FormatText();  //TODO:If format operation take too long times. UI thread may freezed.
+                });
             }
             catch (Exception ex)
             {
