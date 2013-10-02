@@ -27,19 +27,19 @@ namespace PSCodeAnalyzer.Tests
 
             var contentType = EditorImports.ContentTypeRegistryService.GetContentType("code");
             var buffer = EditorImports.TextBufferFactoryService.CreateTextBuffer(content, contentType);
-            var textEditor = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
+            var textView = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
+            var undoManagerProvider = EditorImports.TextBufferUndoManagerProvider;
 
-
-            var formatter = new CodeAnalyzer(textEditor, FormatCodeOptions.Default);
+            var formatter = EditorImports.CodeAnalyzerFactory.Create(textView);
 
             {
                 var caretPos = content.IndexOf("=");
 
-                textEditor.Caret.MoveTo(new SnapshotPoint(textEditor.TextSnapshot, caretPos));
+                textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, caretPos));
 
                 formatter.FormatText();
 
-                int i = textEditor.Caret.Position.BufferPosition.Position;
+                int i = textView.Caret.Position.BufferPosition.Position;
 
                 buffer.CurrentSnapshot[i].Is('=');
             }

@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 
 function Main
 {
-	Write-Host "Install PSCodeAnalyzer.ISEAddmin to PSModule path"
+	Write-Host "Install PSCodeAnalyzer.ISEAddin to PSModule path"
     $ModuleName = "PSCodeAnalyzer.ISEAddin"
 	$path = Join-Path $PSScriptRoot "Modules\PSCodeAnalyzer.ISEAddin"
     Install-PSModule -ModuleName $ModuleName -Path $path

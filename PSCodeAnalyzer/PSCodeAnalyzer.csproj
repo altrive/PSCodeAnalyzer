@@ -52,7 +52,6 @@
     <Compile Include="CodeAnalyzer.cs" />
     <Compile Include="CodeFormatter\CodeFormatter.cs" />
     <Compile Include="CodeFormatter\FormatCodeOptions.cs" />
-    <Compile Include="CodeFormatter\FormatCodeRules.cs" />
     <Compile Include="CodeFormatter\Rules\CoreRule.cs" />
     <Compile Include="CodeFormatter\Rules\CurrentTokenRule.cs" />
     <Compile Include="CodeFormatter\Rules\GroupTokenRule.cs" />
@@ -60,6 +59,7 @@
     <Compile Include="CodeFormatter\Rules\PreProcessRule.cs" />
     <Compile Include="CodeFormatter\Rules\Rule.cs" />
     <Compile Include="CodeFormatter\Rules\RulePriority.cs" />
+    <Compile Include="EditorImports.cs" />
     <Compile Include="Text\TextBuffer.cs" />
     <Compile Include="ExtensionMethods\ExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IScriptContextExtensions.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="ExternalLibraries\AnonymousComparer.cs" />
     <Compile Include="IScriptContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Context.cs" />
+    <Compile Include="CodeAnalyzerFactory.cs" />
     <Compile Include="Text\EditSpan.cs" />
     <Compile Include="Visitors\FindAstByVisitor.cs" />
     <Compile Include="Visitors\VisitorBase.cs" />

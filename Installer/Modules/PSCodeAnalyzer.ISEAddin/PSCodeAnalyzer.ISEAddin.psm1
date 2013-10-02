@@ -4,9 +4,6 @@ $dllPath =  Join-Path $PSScriptRoot "PSCodeAnalyzer.dll"
 $dllBytes = [IO.File]::ReadAllBytes($dllPath)
 [System.Reflection.Assembly]::Load($dllBytes) > $null
 
-#Initialize
-[PSCodeAnalyzer.Context]::Initialize()
-
 if ($host.Name -ne "Windows PowerShell ISE Host"){
     return
 }

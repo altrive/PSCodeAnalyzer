@@ -32,7 +32,7 @@ namespace PSCodeAnalyzer
         public ParseError[] Errors { get { return _context.Errors; } }
 
 
-        public CodeAnalyzer(ITextView textView, FormatCodeOptions option)
+        internal CodeAnalyzer(ITextView textView, FormatCodeOptions option)
         {
             Contract.Assert(textView != null);
             this._textView = textView;
@@ -58,8 +58,8 @@ namespace PSCodeAnalyzer
             var textBuffer = _textView.TextBuffer;
 
             var formatter = new CodeFormatter.CodeFormatter(_option);
-      
-            formatter.FormatCode(_textView,textBuffer, _context);
+
+            formatter.FormatCode(textBuffer, _context);
         }
     }
 }

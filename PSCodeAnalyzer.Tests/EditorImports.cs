@@ -27,6 +27,12 @@ namespace PSCodeAnalyzer.Tests
         [Import]
         private IContentTypeRegistryService _contentTypeRegistryService;
 
+        [Import]
+        private ITextBufferUndoManagerProvider _textBufferUndoManagerProvider;
+
+        [Import]
+        private ICodeAnalyzerFactory _codeAnalyzerFactory;
+
 
         internal static ITextEditorFactoryService TextEditorFactoryService
         {
@@ -40,6 +46,15 @@ namespace PSCodeAnalyzer.Tests
         internal static IContentTypeRegistryService ContentTypeRegistryService
         {
             get { return Current._contentTypeRegistryService; }
+        }
+        internal static ITextBufferUndoManagerProvider TextBufferUndoManagerProvider
+        {
+            get { return Current._textBufferUndoManagerProvider; }
+        }
+
+        internal static ICodeAnalyzerFactory CodeAnalyzerFactory
+        {
+            get { return Current._codeAnalyzerFactory; }
         }
 
 
@@ -67,6 +82,7 @@ namespace PSCodeAnalyzer.Tests
             var catalog = new AggregateCatalog(new ComposablePartCatalog[]
                 {
                     new AssemblyCatalog(Assembly.GetExecutingAssembly()),
+                    new AssemblyCatalog(typeof (ICodeAnalyzerFactory).Assembly),
                     new AssemblyCatalog(typeof (ITextEditorFactoryService).Assembly)
                 });
 

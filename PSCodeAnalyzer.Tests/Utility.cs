@@ -104,18 +104,18 @@ namespace PSCodeAnalyzer.Tests
         {
             var contentType = EditorImports.ContentTypeRegistryService.GetContentType("code");
             var buffer = EditorImports.TextBufferFactoryService.CreateTextBuffer(content, contentType);
-            var textEditor = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
+            var textView = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
 
             //Arrange
-            var formatter = new CodeAnalyzer(textEditor, FormatCodeOptions.Default);
+            var analyzer = EditorImports.CodeAnalyzerFactory.Create(textView);
 
             //Act
-            formatter.FormatText();
+            analyzer.FormatText();
 
             //Assert
             foreach (var line in Utility.CompareText(buffer.CurrentSnapshot.GetText(), expected))
             {
-                line.Actual.Is(line.Expected, line.GetErrorMessage(formatter.Tokens));
+                line.Actual.Is(line.Expected, line.GetErrorMessage(analyzer.Tokens));
             }
         }
 
@@ -123,10 +123,11 @@ namespace PSCodeAnalyzer.Tests
         {
             var contentType = EditorImports.ContentTypeRegistryService.GetContentType("code");
             var buffer = EditorImports.TextBufferFactoryService.CreateTextBuffer(content, contentType);
-            var textEditor = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
+            var textView = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
+            // var undoManagerProvider = EditorImports.TextBufferUndoManagerProvider;
 
-            var formatter = new CodeAnalyzer(textEditor, FormatCodeOptions.Default);
-            formatter.FormatText();
+            var analyzer = EditorImports.CodeAnalyzerFactory.Create(textView);
+            analyzer.FormatText();
 
             return buffer.CurrentSnapshot.GetText();
         }

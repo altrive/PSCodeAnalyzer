@@ -20,7 +20,6 @@ namespace PSCodeAnalyzer.Tests
         public void Init()
         {
             //Execution time is included in first test case?
-            Context.Initialize();
             EditorImports.Initialize();
         }
 

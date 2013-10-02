@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Automation;
-using System.Management.Automation.Language;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.PowerShell.Host.ISE;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using Microsoft.VisualStudio.Text.Operations;
 using PSCodeAnalyzer.Utilities;
 
 namespace PSCodeAnalyzer
@@ -23,19 +22,30 @@ namespace PSCodeAnalyzer
     {
         //public static ObjectModelRoot IseRoot { get; private set; }
 
+        //[Import]
+        private static ICodeAnalyzerFactory codeAnalyzerFactory;
+
         public static void Initialize(ObjectModelRoot root)
         {
             //IseRoot = root;
 
+            RegisterMenus(root);
+
+            InitializeMEFComponents();
+        }
+
+        private static void RegisterMenus(ObjectModelRoot root)
+        {
             var menus = (ISEMenuItemCollection)root.CurrentPowerShellTab.AddOnsMenu.Submenus;
 
             //Add MenuItem(FormatDocument)
             {
                 const string name = "Format Document";
-                var gesture = new MultiKeyGesture(new[]{
-                            new KeyGesture(Key.K, ModifierKeys.Control),
-                            new KeyGesture(Key.D, ModifierKeys.Control),
-                        }, "Ctrl+K, Ctrl+D");
+                var gesture = new MultiKeyGesture(new[]
+                {
+                    new KeyGesture(Key.K, ModifierKeys.Control),
+                    new KeyGesture(Key.D, ModifierKeys.Control),
+                }, "Ctrl+K, Ctrl+D");
                 var scriptBlock = ScriptBlock.Create("Format-CurrentDocument -Range Document");
 
                 var item = menus.SingleOrDefault(p => p.DisplayName == name);
@@ -51,7 +61,8 @@ namespace PSCodeAnalyzer
             //Add MenuItem(FormatDocument)
             {
                 const string name = "Format Selection";
-                var gesture = new MultiKeyGesture(new[]{
+                var gesture = new MultiKeyGesture(new[]
+                {
                     new KeyGesture(Key.K, ModifierKeys.Control),
                     new KeyGesture(Key.F, ModifierKeys.Control),
                 }, "Ctrl+K, Ctrl+F");
@@ -66,6 +77,29 @@ namespace PSCodeAnalyzer
             }
         }
 
+        private static void InitializeMEFComponents()
+        {
+            //Import VS components using MEF
+            var catalog = new AggregateCatalog(new ComposablePartCatalog[]
+            {
+                new AssemblyCatalog(Assembly.GetExecutingAssembly()),
+                new AssemblyCatalog(typeof (ICodeAnalyzerFactory).Assembly),
+                new AssemblyCatalog(typeof (ITextBufferUndoManagerProvider).Assembly)
+            });
+
+            //Create the CompositionContainer with the parts in the catalog
+            var container = new CompositionContainer(catalog);
+            try
+            {
+                codeAnalyzerFactory = container.GetExportedValue<ICodeAnalyzerFactory>();
+                EditorImports.Current = container.GetExportedValue<EditorImports>();
+            }
+            catch (CompositionException compositionException)
+            {
+                throw;
+            }
+        }
+
         public enum FormatRange
         {
             Document,
@@ -74,7 +108,7 @@ namespace PSCodeAnalyzer
 
         public static void FormatCurrentDocument(ObjectModelRoot psIse, FormatRange range)
         {
-            //IseRoot is not sync? ISERoot.CurrentFile may be null when multiple PowerShell tab opened.
+            //Cached IseRoot is not sync? ISERoot.CurrentFile may be null when multiple PowerShell tab opened.
             var currentFile = psIse.CurrentFile;
 
             if (currentFile == null)
@@ -83,9 +117,11 @@ namespace PSCodeAnalyzer
             //TODO:Reflection Performance
             var viewHost = (IWpfTextViewHost)typeof(ISEEditor).GetProperty("EditorViewHost", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(currentFile.Editor);
             var textView = (ITextView)viewHost.TextView;
-            Contract.Assert(textView != null);
 
-            var analyzer = new CodeAnalyzer(textView, FormatCodeOptions.Current);
+            if (textView == null)
+                return;
+
+            var analyzer = codeAnalyzerFactory.Create(textView);
 
             try
             {
