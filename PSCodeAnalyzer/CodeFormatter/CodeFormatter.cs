@@ -93,7 +93,7 @@ namespace PSCodeAnalyzer.CodeFormatter
             //.Where(p=>enabledRuleNames.Contains(p.Metadata.Name))
             //var rules = Context.Current.Rules.OrderBy(p => p.Metadata.Order);
 
-            var rules = EditorImports.Rules;
+            var rules = EditorImports.Rules.OrderBy(p => p.Metadata.Order);
             foreach (var lazy in rules)
             {
                 var rule = lazy.Value;

@@ -47,10 +47,7 @@ namespace PSCodeAnalyzer.Tests
         {
             get { return Current._contentTypeRegistryService; }
         }
-        internal static ITextBufferUndoManagerProvider TextBufferUndoManagerProvider
-        {
-            get { return Current._textBufferUndoManagerProvider; }
-        }
+
 
         internal static ICodeAnalyzerFactory CodeAnalyzerFactory
         {
@@ -91,6 +88,7 @@ namespace PSCodeAnalyzer.Tests
                 try
                 {
                     container.ComposeParts(this);
+                    PSCodeAnalyzer.EditorImports.Current = container.GetExportedValue<PSCodeAnalyzer.EditorImports>();
                     //Need to create private field instance before access
                     //var dummy = _editorOptionsFactoryService.GlobalOptions;
                 }

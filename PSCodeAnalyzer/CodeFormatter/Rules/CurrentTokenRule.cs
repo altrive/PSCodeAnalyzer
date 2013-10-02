@@ -91,7 +91,6 @@ namespace PSCodeAnalyzer.CodeFormatter.Rules
                     {
                         case TokenKind.LParen:
                             return ctx.SetNoIndentNextToken();
-                            return true;
                         default:
                             return ctx.SetIndentNextToken();
                     }

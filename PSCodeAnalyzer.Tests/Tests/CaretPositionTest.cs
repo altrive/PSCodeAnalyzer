@@ -28,7 +28,6 @@ namespace PSCodeAnalyzer.Tests
             var contentType = EditorImports.ContentTypeRegistryService.GetContentType("code");
             var buffer = EditorImports.TextBufferFactoryService.CreateTextBuffer(content, contentType);
             var textView = EditorImports.TextEditorFactoryService.CreateTextView(buffer);
-            var undoManagerProvider = EditorImports.TextBufferUndoManagerProvider;
 
             var formatter = EditorImports.CodeAnalyzerFactory.Create(textView);
 
