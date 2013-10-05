@@ -4,6 +4,10 @@ Set-StrictMode -Version Latest
 
 function Main
 {
+    if($PSVersionTable.PSVersion.Major -lt 3){
+        Write-Error "PowerShell 3.0 or above required!"
+    }
+
     $ModuleName = "PSCodeAnalyzer.ISEAddin"
     $Url = "https://github.com/altrive/PSCodeAnalyzer/raw/master/Installer/PSCodeAnalyzer.zip"
     try
