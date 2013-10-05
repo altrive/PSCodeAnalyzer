@@ -16,7 +16,9 @@ Supported environment is following
 3. If prompt apeeared and you want to import module automatically when ISE started. select [yes] button.
 
 ``` powershell
-(New-Object Net.WebClient).DownloadString("https://github.com/altrive/PSCodeAnalyzer/blob/master/Installer/PSCodeAnalyzer.zip") | Invoke-Expression -Verbose
+ 
+(New-Object Net.WebClient).DownloadString("https://raw.github.com/altrive/PSCodeAnalyzer/master/Installer/Install.ps1") | Invoke-Expression -Verbose
+ 
 ```
 
 2.How to use

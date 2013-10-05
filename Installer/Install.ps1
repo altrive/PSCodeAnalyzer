@@ -5,7 +5,7 @@ Set-StrictMode -Version Latest
 function Main
 {
     $ModuleName = "PSCodeAnalyzer.ISEAddin"
-    $Url = "https://github.com/altrive/PSCodeAnalyzer/blob/master/Installer/PSCodeAnalyzer.zip"
+    $Url = "https://github.com/altrive/PSCodeAnalyzer/raw/master/Installer/PSCodeAnalyzer.zip"
     try
     {
         $extractedPath = Get-ZipContentFromUrl -Url $Url -Verbose
