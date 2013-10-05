@@ -12,7 +12,8 @@ Supported environment is following
 1.How to install
 ---------------
 1. Open PowerShell ISE
-2. Execute following command, it automatically download installer zip file and extract to PSModule directory.If you want to import module automatically when ISE started. select yes in prompt.
+2. Execute following command, it automatically download installer zip file and extract to PSModule directory.
+3. If prompt apeeared and you want to import module automatically when ISE started. select [yes] button.
 
 ``` powershell
 (New-Object Net.WebClient).DownloadString("https://github.com/altrive/PSCodeAnalyzer/blob/master/Installer/PSCodeAnalyzer.zip") | Invoke-Expression -Verbose
@@ -33,12 +34,10 @@ Following keybord shortcut is supported
 4.Code formating result verification
 -------------------
 Formatted result is verified by lexical token level,and compared to *before format* token sequence. 
-If token sequence is not matched. ISE editor text is not changed (reverted to before format text).
-Currently tested over 1000 PowerShell repository(about 70MB .ps1/.psm1) in GitHub and test passed.
-
-*Note: Thought formatted result is verified, it may break existing code after formatting. please backup important files before execute code format*
+If token sequence is not matched. ISE editor text is not changed (reverted to *before format* text).
+Currently tested over 1000 PowerShell repository code(about 70MB .ps1/.psm1) in GitHub.
 When code formatting error occured, error line information displayed in ISE console pane. Please report error message.
-
+*Note: Thought formatted result is verified, it may break existing code after formatting. please backup important files before execute code format*
 
 5.TODO List
 ---------------
@@ -46,4 +45,4 @@ When code formatting error occured, error line information displayed in ISE cons
 - [ ] Support various code formatter options
 - [ ] Support partial range formatting
 - [ ] GUI option settings page
-- [ ] VS code formatter integration
+- [x] Ensure Visual Studio integration compatibility
