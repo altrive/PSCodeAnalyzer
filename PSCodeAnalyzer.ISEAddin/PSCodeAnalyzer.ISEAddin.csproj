@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
@@ -67,6 +68,7 @@
     <Compile Include="ISEAddin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\MultiKeyGesture.cs" />
+    <Compile Include="Utilities\Utility.cs" />
     <Compile Include="Views\PSCodeAnalyzer.xaml.cs">
       <DependentUpon>PSCodeAnalyzer.xaml</DependentUpon>
     </Compile>

@@ -108,14 +108,24 @@ namespace PSCodeAnalyzer.Tests
 
             //Arrange
             var analyzer = EditorImports.CodeAnalyzerFactory.Create(textView);
+            var formatter = EditorImports.CodeFormatterFactory.Create(textView.TextBuffer);
 
             //Act
-            analyzer.FormatText();
+            var analysisResult = analyzer.Analyze();
+            var formatResult = formatter.FormatCode(analysisResult);
+            try
+            {
+                formatResult.Commit(EditorImports.UndoManagerProvider);
+            }
+            catch
+            {
+                throw;
+            }
 
             //Assert
             foreach (var line in Utility.CompareText(buffer.CurrentSnapshot.GetText(), expected))
             {
-                line.Actual.Is(line.Expected, line.GetErrorMessage(analyzer.Tokens));
+                line.Actual.Is(line.Expected, line.GetErrorMessage(analysisResult.Context.Tokens));
             }
         }
 
@@ -127,7 +137,19 @@ namespace PSCodeAnalyzer.Tests
             // var undoManagerProvider = EditorImports.TextBufferUndoManagerProvider;
 
             var analyzer = EditorImports.CodeAnalyzerFactory.Create(textView);
-            analyzer.FormatText();
+            var formatter = EditorImports.CodeFormatterFactory.Create(textView.TextBuffer);
+
+            //Act
+            var analysisResult = analyzer.Analyze();
+            var formatResult = formatter.FormatCode(analysisResult);
+            try
+            {
+                formatResult.Commit(EditorImports.UndoManagerProvider);
+            }
+            catch
+            {
+                throw;
+            }
 
             return buffer.CurrentSnapshot.GetText();
         }

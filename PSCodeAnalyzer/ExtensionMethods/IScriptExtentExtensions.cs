@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PSCodeAnalyzer
 {
-    static class IScriptExtentExtensions
+    static class ScriptExtentExtensions
     {
         internal static bool IsBefore(this IScriptExtent extent, IScriptExtent target)
         {

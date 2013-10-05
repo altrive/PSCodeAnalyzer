@@ -11,55 +11,60 @@ using System.Text;
 using System.Management.Automation.Language;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using PSCodeAnalyzer.CodeFormatter;
 using Microsoft.VisualStudio.Text.Operations;
 
 namespace PSCodeAnalyzer
 {
-
-    [Export]
     public class CodeAnalyzer
     {
         private readonly ITextView _textView;
 
-        //private readonly string _text;
-        private readonly FormatCodeOptions _option;
-        private ScriptContext _context;
-
-        public Token[] Tokens { get { return _context.Tokens; } }
-        public ParseError[] Errors { get { return _context.Errors; } }
-
-
-        internal CodeAnalyzer(ITextView textView, FormatCodeOptions option)
+        internal CodeAnalyzer(ITextView textView)
         {
             Contract.Assert(textView != null);
             this._textView = textView;
-            this._option = option;
         }
 
-        private bool isAnalyzeCompleted = false;
-        public void Analyze()
-        {
-            var text = _textView.TextSnapshot.GetText();
-            this._context = ScriptContext.Parse(text);
 
-            isAnalyzeCompleted = true;
+        //Analyze current snapshot
+        public Result Analyze()
+        {
+            var snapshot = _textView.TextSnapshot;
+            var context = ScriptContext.Parse(snapshot.GetText());
+            return new Result
+            {
+                Context = context,
+                TextSnapshot = snapshot
+            };
         }
 
-        public void FormatText()
+        public Task<Result> AnalyzeAsync()
         {
-            if (!isAnalyzeCompleted)
-                Analyze();
+            var tcs = new TaskCompletionSource<Result>();
+            //TODO:Async Support
+            var task = tcs.Task.ContinueWith((t) =>
+            {
+                var result = Analyze();
+                tcs.SetResult(result);
+            });
 
-            _context.ResetState();
+            return (Task<Result>)task;
+        }
 
-            var textBuffer = _textView.TextBuffer;
+        public class Result
+        {
+            public ITextSnapshot TextSnapshot { get; set; }
+            //public ITextVersion Version { get; set; }
 
-            var formatter = new CodeFormatter.CodeFormatter(_option);
 
-            formatter.FormatCode(textBuffer, _context);
+            public ScriptContext Context { get; set; }
+
+            public Result()
+            {
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Automation;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.PowerShell.Host.ISE;
@@ -20,21 +21,72 @@ namespace PSCodeAnalyzer
 {
     public class ISEAddin
     {
-        //public static ObjectModelRoot IseRoot { get; private set; }
+        internal static ObjectModelRoot IseRoot { get; set; }
 
-        //[Import]
-        private static ICodeAnalyzerFactory codeAnalyzerFactory;
+        public static Exception LastException { get; set; }//For deegugging variable (Use [PSCodeAnalyzer.ISEAddin].LastException)
+
+        private static ICodeAnalyzerFactory _codeAnalyzerFactory;
+        private static ICodeFormatterFactory _codeFormatterFactory;
+        private static ITextBufferUndoManagerProvider _undoManagerProvider;
 
         public static void Initialize(ObjectModelRoot root)
         {
-            //IseRoot = root;
+            IseRoot = root;
 
-            RegisterMenus(root);
-
+            InitializeMenus(root);
             InitializeMEFComponents();
         }
 
-        private static void RegisterMenus(ObjectModelRoot root)
+        public enum FormatRange
+        {
+            Document,
+            Selection,
+        }
+
+        public static void FormatCurrentDocument(ObjectModelRoot psIse, FormatRange range)
+        {
+            //Cached IseRoot is not sync? ISERoot.CurrentFile may be null when multiple PowerShell tab opened.
+            var currentFile = psIse.CurrentFile;
+
+            if (currentFile == null)
+                return;
+
+            //TODO:Reflection Performance
+            var viewHost = (IWpfTextViewHost)typeof(ISEEditor).GetProperty("EditorViewHost", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(currentFile.Editor);
+            var textView = (ITextView)viewHost.TextView;
+
+            if (textView == null || textView.TextBuffer == null)
+                return;
+
+            var analyzer = _codeAnalyzerFactory.Create(textView);
+            var formatter = _codeFormatterFactory.Create(textView.TextBuffer);
+
+            var analyzedResult = analyzer.Analyze();
+            var formatResult = formatter.FormatCode(analyzedResult);
+
+            try
+            {
+                //Need to execute operation in UI thread? to avoid ISE crashed by ArgumentOutOfRangeException
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    //If refresh needed. retry operation in UI thread
+                    if (textView.TextSnapshot.Version != analyzedResult.TextSnapshot.Version)
+                    {
+                        formatResult = formatter.FormatCode(analyzer.Analyze());
+                    }
+                    formatResult.Commit(_undoManagerProvider);
+                });
+            }
+            catch (Exception ex)
+            {
+                LastException = ex;
+                throw;
+                //TODO:Support ErrorMessage
+                //Console.WriteLine(ex.Message); //Output to ISE ConsoleWindow
+            }
+        }
+
+        private static void InitializeMenus(ObjectModelRoot root)
         {
             var menus = (ISEMenuItemCollection)root.CurrentPowerShellTab.AddOnsMenu.Submenus;
 
@@ -91,57 +143,15 @@ namespace PSCodeAnalyzer
             var container = new CompositionContainer(catalog);
             try
             {
-                codeAnalyzerFactory = container.GetExportedValue<ICodeAnalyzerFactory>();
-                EditorImports.Current = container.GetExportedValue<EditorImports>();
+                _codeAnalyzerFactory = container.GetExportedValue<ICodeAnalyzerFactory>();
+                _codeFormatterFactory = container.GetExportedValue<ICodeFormatterFactory>();
+                _undoManagerProvider = container.GetExportedValue<ITextBufferUndoManagerProvider>();
             }
             catch (CompositionException)
             {
                 throw;
             }
         }
-
-        public enum FormatRange
-        {
-            Document,
-            Selection,
-        }
-
-        public static void FormatCurrentDocument(ObjectModelRoot psIse, FormatRange range)
-        {
-            //Cached IseRoot is not sync? ISERoot.CurrentFile may be null when multiple PowerShell tab opened.
-            var currentFile = psIse.CurrentFile;
-
-            if (currentFile == null)
-                return;
-
-            //TODO:Reflection Performance
-            var viewHost = (IWpfTextViewHost)typeof(ISEEditor).GetProperty("EditorViewHost", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(currentFile.Editor);
-            var textView = (ITextView)viewHost.TextView;
-
-            if (textView == null)
-                return;
-
-            var analyzer = codeAnalyzerFactory.Create(textView);
-
-            try
-            {
-                //Need to execute whole operation in UI thread? to avoid ISE crashed by ArgumentOutOfRangeException
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    analyzer.FormatText();  //TODO:If format operation take too long times. UI thread may freezed.
-                });
-            }
-            catch (Exception ex)
-            {
-                LastException = ex;
-                throw;
-                //TODO:Support ErrorMessage
-                //Console.WriteLine(ex.Message); //Output to ISE ConsoleWindow
-                //return;
-            }
-        }
-
-        public static Exception LastException { get; set; }
 
 
     }

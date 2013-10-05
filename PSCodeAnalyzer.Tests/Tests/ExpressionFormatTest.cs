@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PSCodeAnalyzer.Tests
 {
-
+    
     [TestClass]
     public class ExpressionFormatTest
     {
@@ -58,54 +58,6 @@ namespace PSCodeAnalyzer.Tests
 
 
 
-        [TestMethod]
-        public void BinaryOperators_Special()
-        {
-            {
-                const string original = "1 - 1";
-                Utility.ShouldNotChanged(original);
-            }
-            {
-                const string original = "$true -eq  $true";
-                const string expected = "$true -eq $true";
-                Utility.ShouldMatch(original, expected);
-            }
-        }
-
-        [TestMethod]
-        public void AssignmentOperators()
-        {
-            {
-                const string original = "$test=1";
-                const string expected = "$test = 1";
-                Utility.ShouldMatch(original, expected);
-            }
-            {
-                const string original = "$test+=1";
-                const string expected = "$test += 1";
-                Utility.ShouldMatch(original, expected);
-            }
-            {
-                const string original = "$test-=1";
-                const string expected = "$test -= 1";
-                Utility.ShouldMatch(original, expected);
-            }
-            {
-                const string original = "$test*=1";
-                const string expected = "$test *= 1";
-                Utility.ShouldMatch(original, expected);
-            }
-            {
-                const string original = "$test/=1";
-                const string expected = "$test /= 1";
-                Utility.ShouldMatch(original, expected);
-            }
-            {
-                const string original = "$test%=1";
-                const string expected = "$test %= 1";
-                Utility.ShouldMatch(original, expected);
-            }
-        }
 
         [TestMethod]
         public void LogicalOperators()

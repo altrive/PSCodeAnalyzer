@@ -2571,14 +2571,14 @@ namespace PSCodeAnalyzer.Tests
             var downloadUrl = "https://github.com/jonicis/TestTutorial";
             TestFiles("jonicis_TestTutorial", downloadUrl);
         }
-
+        /*
         [TestMethod]
         public void GitHub_Jaa_c_bc_thesis()
         {
             var downloadUrl = "https://github.com/Jaa-c/bc-thesis";
             TestFiles("Jaa-c_bc-thesis", downloadUrl);
         }
-
+        */
         [TestMethod]
         public void GitHub_dettogni_BackUp_Powershell()
         {
